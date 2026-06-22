@@ -9,7 +9,7 @@ $dbConfig = $config['db'];
 $conn = new mysqli($dbConfig['host'], $dbConfig['user'], $dbConfig['pass']);
 
 if ($conn->connect_error) {
-    die("Error de conexion: " . $conn->connect_error);
+    die("Error de conexion a MySQL: " . $conn->connect_error . ". Verifica que MySQL este corriendo en XAMPP.");
 }
 
 $dbName = $conn->real_escape_string($dbConfig['name']);

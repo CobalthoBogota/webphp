@@ -3,7 +3,7 @@ return [
     'db' => [
         'host' => 'localhost',
         'user' => 'root',
-        'pass' => '',
+        'pass' => '', // Si XAMPP tiene contraseña, cambiar aquí
         'name' => 'cobaltho',
     ],
 ];

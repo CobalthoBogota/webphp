@@ -2,6 +2,21 @@
 require_once __DIR__ . '/cart_helpers.php';
 
 $cart = cart_items();
+$total = cart_total();
+
+// Generar el mensaje de WhatsApp con los productos
+$mensaje = "Hola! Me interesa hacer esta compra:%0A%0A";
+foreach ($cart as $item) {
+    $cantidad = (int) ($item['cantidad'] ?? 1);
+    $precio = (int) ($item['precio'] ?? 0);
+    $nombre = $item['nombre'] ?? 'Producto';
+    $mensaje .= "• " . urlencode($nombre) . " x" . $cantidad . " = " . number_format($precio * $cantidad, 0, ',', '.') . "%0A";
+}
+$mensaje .= "%0ATotal: $" . number_format($total, 0, ',', '.') . "%0A%0A¿Cuál es el siguiente paso?";
+
+// Número de WhatsApp (sin + ni espacios)
+$whatsapp_number = "573157083477";
+$whatsapp_url = "https://wa.me/" . $whatsapp_number . "?text=" . $mensaje;
 ?>
 
 <div id="cartSidebar" class="cart-sidebar">
@@ -47,9 +62,15 @@ $cart = cart_items();
         <strong data-cart-total-value><?php echo money(cart_total()); ?></strong>
       </div>
 
-      <a class="btn btn-carrito cart-checkout" href="<?php echo app_url('cart.php'); ?>" data-cart-checkout>
-        Ver carrito completo
-      </a>
+      <div class="cart-buttons">
+        <a class="btn btn-carrito" href="<?php echo app_url('cart.php'); ?>" data-cart-checkout>
+          Ver carrito completo
+        </a>
+        
+        <a class="btn btn-whatsapp-cart" href="<?php echo $whatsapp_url; ?>" target="_blank" rel="noopener noreferrer">
+          📱 Comprar por WhatsApp
+        </a>
+      </div>
     <?php else: ?>
       <p class="cart-empty">Tu carrito esta vacio</p>
     <?php endif; ?>
